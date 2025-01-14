@@ -1,3 +1,7 @@
+/*
+palesemente rubato dal professore di React Native
+crediti: https://github.com/yasserelmalouani
+ */
 module.exports = {
   extends: [
     'expo',
