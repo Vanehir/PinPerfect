@@ -19,6 +19,7 @@ export const useProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [initialProducts, setInitialProducts] = useState<Product[]>([]);
 
+  // ** USE CALLBACK ** //
   const refreshProducts = useCallback(async () => {
     try {
       const response = await fetch('https://fakestoreapi.com/products');
