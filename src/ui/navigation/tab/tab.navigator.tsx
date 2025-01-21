@@ -1,5 +1,7 @@
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {TabParams, Screen} from "../types";
+import React from 'react';
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { TabParams, Screen } from '../types';
 import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from '../../screens/home/home.screen';
 import FavoritesScreen from '../../screens/favorites/favorites.screen';
