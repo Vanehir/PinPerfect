@@ -1,18 +1,30 @@
-import {useCallback, useState} from "react";
+import { useCallback, useState } from 'react';
 
-interface Rating {
-  rate: number;
-  count: number;
+interface apiProduct {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
+  image: string;
 }
 
 export interface Product {
   id: number;
   title: string;
   price: number;
+  rating: number;
+  image: string;
+}
+
+export interface ProductDetail extends Product {
   category: string;
   description: string;
-  image: string;
-  rating: Rating;
+  reviewCount: number;
 }
 
 export const useProducts = () => {
@@ -24,11 +36,14 @@ export const useProducts = () => {
     try {
       const response = await fetch('https://fakestoreapi.com/products');
       const data = await response.json();
-      setProducts([...data]);
-      setInitialProducts([...data]);
+      const remappedData = data.map((product: apiProduct) => ({
+        ...product,
+        rating: product.rating.rate,
+      }));
+      setProducts([...remappedData]);
+      setInitialProducts([...remappedData]);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   }, []);
-
-}
+};
