@@ -10,7 +10,7 @@ export type TabParams = {
   [Screen.Favorites]: undefined;
 }
 
-export type DetailParamList = {
+export type NavigatorStackParamList = {
   TabNavigator: undefined;
   [Screen.Detail]: {
     id: number;
