@@ -1,0 +1,7 @@
+const COLORS = {
+  WHITE: '#FFFFFF',
+  BLACK: '#000000',
+  TURQUOISE_SURF: '#09c6d5',
+  BROWNISH_YELLOW: '#c5b006',
+  CARNATION_PINK: 'ff7fab',
+};
