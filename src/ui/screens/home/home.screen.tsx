@@ -6,6 +6,9 @@ import { NavigatorStackParamList, Screen } from '../../navigation/types';
 import { Product, useProducts } from '../hook/useProducts.facade';
 import ProductCard from '../../atoms/product/product.atom';
 
+const BASE_URL = 'https://fakestoreapi.com/products';
+const CATEGORY_URL = 'https://fakestoreapi.com/products/categories';
+
 interface Props {
   navigation: NativeStackNavigationProp<NavigatorStackParamList, Screen.Home>;
 }
@@ -45,7 +48,7 @@ const HomeScreen = ({ navigation }: Props) => {
 
   // ** USE EFFECT ** //
   useEffect(() => {
-    refreshProducts();
+    refreshProducts(BASE_URL);
     loadFavorites();
   }, []);
 
