@@ -19,8 +19,8 @@ const HomeScreen = ({ navigation }: Props) => {
     getProducts,
     fetchCategories,
     categories,
-    selectedCategory,
-    setSelectedCategory,
+    selectedCategories,
+    setSelectedCategories,
     filterProducts,
     loadFavorites,
     addFavorite,
@@ -51,18 +51,23 @@ const HomeScreen = ({ navigation }: Props) => {
     ({ item }) => (
       <Chip
         title={item}
-        selected={selectedCategory === item}
+        selected={selectedCategories.includes(item)}
         onPress={() => {
-          if (selectedCategory === item) {
-            setSelectedCategory(null);
+          if (selectedCategories.includes(item)) {
+            setSelectedCategories((currentSelectedCategories: string[]) =>
+              currentSelectedCategories.filter((category) => category !== item)
+            );
           } else {
-            setSelectedCategory(item);
+            setSelectedCategories((currentSelectedCategories: string[]) => [
+              ...currentSelectedCategories,
+              item,
+            ]);
             filterProducts;
           }
         }}
       />
     ),
-    [filterProducts, selectedCategory, setSelectedCategory]
+    [filterProducts, selectedCategories, setSelectedCategories]
   );
 
   // ** USE EFFECT ** //
