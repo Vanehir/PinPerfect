@@ -3,9 +3,9 @@ import COLORS from '../../../constants/colors';
 
 const styles = StyleSheet.create({
   chip: {
-    paddingVertical: 12,
-    paddingHorizontal: 12 * 1.5,
-    borderRadius: 12 * 2,
+    paddingVertical: 8,
+    paddingHorizontal: 8 * 1.5,
+    borderRadius: 8 * 2,
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 4,
@@ -18,19 +18,23 @@ const styles = StyleSheet.create({
   },
   chipSelected: {
     backgroundColor: COLORS.BLACK,
-    paddingVertical: 12,
   },
   chipTextContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 12 * 2,
+    height: 8 * 2,
   },
   chipText: {
-    color: COLORS.BLACK,
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: 'bold',
     textTransform: 'capitalize',
+  },
+  chipTextSelected: {
+    color: COLORS.WHITE,
+  },
+  chipTextNotSelected: {
+    color: COLORS.BLACK,
   },
 });
 
