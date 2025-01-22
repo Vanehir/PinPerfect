@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { storage } from '../../../core/storage/storage';
 import { FAVORITE_PRODUCTS } from '../../../core/storage/types';
 
@@ -63,7 +63,18 @@ export const useProducts = () => {
     }
   }, []);
 
-  const filterProduct = useCallback(async () => {
+  // const filterProduct = useCallback(async () => {
+  //   if (selectedCategory) {
+  //     const filteredProducts = initialProducts.filter(
+  //       (product) => product.category === selectedCategory
+  //     );
+  //     setProducts(filteredProducts);
+  //   } else {
+  //     setProducts(initialProducts);
+  //   }
+  // }, [initialProducts, selectedCategory]);
+
+  const filterProducts = useMemo(async () => {
     if (selectedCategory) {
       const filteredProducts = initialProducts.filter(
         (product) => product.category === selectedCategory
@@ -101,8 +112,9 @@ export const useProducts = () => {
     getProducts,
     fetchCategories,
     categories,
+    selectedCategory,
     setSelectedCategory,
-    filterProduct,
+    filterProducts,
     loadFavorites,
     addFavorite,
     // TODO add sorting and test filterProduct
