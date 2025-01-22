@@ -20,11 +20,11 @@ export interface Product {
   title: string;
   price: number;
   rating: number;
+  category: string;
   image: string;
 }
 
 export interface ProductDetail extends Product {
-  category: string;
   description: string;
   reviewCount: number;
 }
@@ -98,9 +98,13 @@ export const useProducts = () => {
   return {
     products,
     favoriteIds,
-    refreshProducts: getProducts,
+    getProducts,
+    fetchCategories,
+    categories,
+    setSelectedCategory,
+    filterProduct,
     loadFavorites,
     addFavorite,
-    // TODO add filter and sorting
+    // TODO add sorting and test filterProduct
   };
 };
