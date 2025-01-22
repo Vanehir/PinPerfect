@@ -5,6 +5,7 @@ import { TabParams, Screen } from '../types';
 import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from '../../screens/home/home.screen';
 import FavoritesScreen from '../../screens/favorites/favorites.screen';
+import COLORS from '../../constants/colors';
 
 const Tab = createBottomTabNavigator<TabParams>();
 export default function TabNavigator() {
@@ -28,7 +29,13 @@ export default function TabNavigator() {
                   return 'bookmark';
               }
             };
-            return <Ionicons name={iconName()} size={24} color={focused ? '#3579f6' : '#6d7075'} />;
+            return (
+              <Ionicons
+                name={iconName()}
+                size={24}
+                color={focused ? COLORS.TURQUOISE_SURF : COLORS.GREY}
+              />
+            );
           },
         };
       }}>
