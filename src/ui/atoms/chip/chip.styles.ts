@@ -4,7 +4,7 @@ import COLORS from '../../../constants/colors';
 const styles = StyleSheet.create({
   chip: {
     paddingVertical: 8,
-    paddingHorizontal: 8 * 1.5,
+    paddingHorizontal: 12,
     borderRadius: 8 * 2,
     alignItems: 'center',
     justifyContent: 'center',
@@ -18,12 +18,13 @@ const styles = StyleSheet.create({
   },
   chipSelected: {
     backgroundColor: COLORS.BLACK,
+    paddingHorizontal: 14,
   },
   chipTextContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 8 * 2,
+    height: 16,
   },
   chipText: {
     fontSize: 12,
