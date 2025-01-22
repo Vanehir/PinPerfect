@@ -53,12 +53,16 @@ const HomeScreen = ({ navigation }: Props) => {
         title={item}
         selected={selectedCategory === item}
         onPress={() => {
-          setSelectedCategory(item);
-          filterProducts;
+          if (selectedCategory === item) {
+            setSelectedCategory(null);
+          } else {
+            setSelectedCategory(item);
+            filterProducts;
+          }
         }}
       />
     ),
-    [filterProducts, setSelectedCategory]
+    [filterProducts, selectedCategory, setSelectedCategory]
   );
 
   // ** USE EFFECT ** //
