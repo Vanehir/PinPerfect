@@ -3,7 +3,7 @@ import { Product } from '../../screens/hook/useProducts.facade';
 import { Image, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from './product.styles';
-import COLORS from '../../constants/colors';
+import COLORS from '../../../constants/colors';
 
 interface ProductCardProps {
   product: Product;
