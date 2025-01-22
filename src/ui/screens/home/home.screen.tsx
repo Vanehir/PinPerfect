@@ -5,9 +5,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { NavigatorStackParamList, Screen } from '../../navigation/types';
 import { Product, useProducts } from '../hook/useProducts.facade';
 import ProductCard from '../../atoms/product/product.atom';
-
-const BASE_URL = 'https://fakestoreapi.com/products';
-const CATEGORY_URL = 'https://fakestoreapi.com/products/categories';
+import API_URL from '../../../constants/api_urls';
+import Chip from '../../atoms/chip/chip.atom';
 
 interface Props {
   navigation: NativeStackNavigationProp<NavigatorStackParamList, Screen.Home>;
@@ -17,16 +16,17 @@ const HomeScreen = ({ navigation }: Props) => {
   const {
     products,
     favoriteIds,
-    refreshProducts,
+    getProducts,
+    fetchCategories,
+    categories,
+    setSelectedCategory,
+    filterProduct,
     loadFavorites,
     addFavorite,
-    FilterType,
-    sorting,
-    onApplyFilter,
   } = useProducts();
 
   // ** USE CALLBACK ** //
-  const renderItem = useCallback<ListRenderItem<Product>>(
+  const renderItemProduct = useCallback<ListRenderItem<Product>>(
     ({ item }) => (
       <ProductCard
         product={item}
@@ -46,9 +46,23 @@ const HomeScreen = ({ navigation }: Props) => {
     [addFavorite, products, favoriteIds, navigation]
   );
 
+  const renderItemCategory = useCallback<ListRenderItem<string>>(
+    ({ item }) => (
+      <Chip
+        title={item}
+        onPress={() => {
+          setSelectedCategory(item);
+          filterProduct();
+        }}
+      />
+    ),
+    [filterProduct, setSelectedCategory]
+  );
+
   // ** USE EFFECT ** //
   useEffect(() => {
-    refreshProducts(BASE_URL);
+    getProducts(API_URL.BASE_URL); // TODO find out why this give an error even if category is optional
+    fetchCategories(API_URL.CATEGORY_URL);
     loadFavorites();
   }, []);
 
@@ -56,8 +70,15 @@ const HomeScreen = ({ navigation }: Props) => {
     <>
       <View>
         <FlatList
+          data={categories}
+          renderItem={renderItemCategory}
+          keyExtractor={(item) => item}
+          horizontal
+        />
+
+        <FlatList
           data={products}
-          renderItem={renderItem}
+          renderItem={renderItemProduct}
           keyExtractor={(item) => item.id.toString()}
         />
       </View>
