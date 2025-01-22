@@ -34,7 +34,8 @@ export const useProducts = () => {
   const [initialProducts, setInitialProducts] = useState<Product[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  //const [selectedCategory, setSelectedCategory] = useState<string | null>(null); // old single category state
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   // ** USE CALLBACK ** //
   // we do not use it the category passed as parameter in this case, but this could be useful in the future
@@ -63,9 +64,9 @@ export const useProducts = () => {
     }
   }, []);
 
-  // old filterProduct function
+  // old wrong filterProduct function
   /*
-  
+
   const filterProduct = useCallback(async () => {
     if (selectedCategory) {
       const filteredProducts = initialProducts.filter(
@@ -79,6 +80,9 @@ export const useProducts = () => {
 
    */
 
+  // old filterProducts function
+  /*
+
   const filterProducts = useMemo(async () => {
     if (selectedCategory) {
       const filteredProducts = initialProducts.filter(
@@ -89,6 +93,19 @@ export const useProducts = () => {
       setProducts(initialProducts);
     }
   }, [initialProducts, selectedCategory]);
+
+   */
+
+  const filterProducts = useMemo(async () => {
+    if (selectedCategories.length > 0) {
+      const filteredProducts = initialProducts.filter((product) =>
+        selectedCategories.includes(product.category)
+      );
+      setProducts(filteredProducts);
+    } else {
+      setProducts(initialProducts);
+    }
+  }, [initialProducts, selectedCategories]);
 
   const loadFavorites = useCallback(async () => {
     try {
@@ -117,8 +134,10 @@ export const useProducts = () => {
     getProducts,
     fetchCategories,
     categories,
-    selectedCategory,
-    setSelectedCategory,
+    // selectedCategory,
+    // setSelectedCategory,
+    selectedCategories,
+    setSelectedCategories,
     filterProducts,
     loadFavorites,
     addFavorite,
