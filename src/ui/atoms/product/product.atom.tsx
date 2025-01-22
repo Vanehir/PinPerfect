@@ -12,7 +12,7 @@ interface ProductCardProps {
   onAddFavorite: () => void;
 }
 
-const Card = ({ product, selected, onAddFavorite, onPress }: ProductCardProps) => {
+const ProductCard = ({ product, selected, onAddFavorite, onPress }: ProductCardProps) => {
   return (
     <>
       <View style={styles.container}>
@@ -35,11 +35,11 @@ const Card = ({ product, selected, onAddFavorite, onPress }: ProductCardProps) =
           <Image source={{ uri: product.image }} />
         </View>
         <View>
-          <Text>{product.price}</Text>
+          <Text style={styles}>{product.price}</Text>
         </View>
       </View>
     </>
   );
 };
 
-export default memo(Card);
+export default memo(ProductCard);
