@@ -1,18 +1,65 @@
-import React from 'react';
-import { Text, View } from 'react-native';
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {NavigatorStackParamList, Screen} from "../../navigation/types";
+import React, { useCallback, useEffect } from 'react';
+
+import { FlatList, ListRenderItem, View } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { NavigatorStackParamList, Screen } from '../../navigation/types';
+import { Product, useProducts } from '../hook/useProducts.facade';
+import ProductCard from '../../atoms/product/product.atom';
 
 interface Props {
-  navigation: NativeStackNavigationProp<NavigatorStackParamList, Screen.Home>
+  navigation: NativeStackNavigationProp<NavigatorStackParamList, Screen.Home>;
 }
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }: Props) => {
+  const {
+    products,
+    favoriteIds,
+    refreshProducts,
+    loadFavorites,
+    addFavorite,
+    FilterType,
+    sorting,
+    onApplyFilter,
+  } = useProducts();
+
+  // ** USE CALLBACK ** //
+  const renderItem = useCallback<ListRenderItem<Product>>(
+    ({ item }) => (
+      <ProductCard
+        product={item}
+        selected={favoriteIds.includes(item.id)}
+        onAddFavorite={() => addFavorite(item)}
+        onPress={() => {
+          if (!item.id) {
+            return;
+          }
+          navigation.navigate(Screen.Detail, {
+            id: item.id,
+            idsArray: products.map((el) => el.id),
+          });
+        }}
+      />
+    ),
+    [addFavorite, products, favoriteIds, navigation]
+  );
+
+  // ** USE EFFECT ** //
+  useEffect(() => {
+    refreshProducts();
+    loadFavorites();
+  }, []);
+
   return (
-    <View>
-      <Text>Home Screen placeholder</Text>
-    </View>
-  )
-}
+    <>
+      <View>
+        <FlatList
+          data={products}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      </View>
+    </>
+  );
+};
 
 export default HomeScreen;
