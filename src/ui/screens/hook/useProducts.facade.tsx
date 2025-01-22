@@ -63,16 +63,21 @@ export const useProducts = () => {
     }
   }, []);
 
-  // const filterProduct = useCallback(async () => {
-  //   if (selectedCategory) {
-  //     const filteredProducts = initialProducts.filter(
-  //       (product) => product.category === selectedCategory
-  //     );
-  //     setProducts(filteredProducts);
-  //   } else {
-  //     setProducts(initialProducts);
-  //   }
-  // }, [initialProducts, selectedCategory]);
+  // old filterProduct function
+  /*
+  
+  const filterProduct = useCallback(async () => {
+    if (selectedCategory) {
+      const filteredProducts = initialProducts.filter(
+        (product) => product.category === selectedCategory
+      );
+      setProducts(filteredProducts);
+    } else {
+      setProducts(initialProducts);
+    }
+  }, [initialProducts, selectedCategory]);
+
+   */
 
   const filterProducts = useMemo(async () => {
     if (selectedCategory) {
