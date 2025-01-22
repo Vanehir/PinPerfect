@@ -33,11 +33,14 @@ export const useProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [initialProducts, setInitialProducts] = useState<Product[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   // ** USE CALLBACK ** //
-  const refreshProducts = useCallback(async () => {
+  // we do not use it the category passed as parameter in this case, but this could be useful in the future
+  const getProducts = useCallback(async (baseUrl: string, category: string | null) => {
     try {
-      const response = await fetch('https://fakestoreapi.com/products');
+      const response = await fetch(baseUrl + (category ? `/category/${category}` : ''));
       const data = await response.json();
       const remappedData = data.map((product: apiProduct) => ({
         ...product,
@@ -49,6 +52,27 @@ export const useProducts = () => {
       console.error('Error fetching products:', error);
     }
   }, []);
+
+  const fetchCategories = useCallback(async (categoryUrl: string) => {
+    try {
+      const response = await fetch(categoryUrl);
+      const data: string[] = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }, []);
+
+  const filterProduct = useCallback(async () => {
+    if (selectedCategory) {
+      const filteredProducts = initialProducts.filter(
+        (product) => product.category === selectedCategory
+      );
+      setProducts(filteredProducts);
+    } else {
+      setProducts(initialProducts);
+    }
+  }, [initialProducts, selectedCategory]);
 
   const loadFavorites = useCallback(async () => {
     try {
@@ -74,7 +98,7 @@ export const useProducts = () => {
   return {
     products,
     favoriteIds,
-    refreshProducts,
+    refreshProducts: getProducts,
     loadFavorites,
     addFavorite,
     // TODO add filter and sorting
