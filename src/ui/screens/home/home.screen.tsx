@@ -19,8 +19,9 @@ const HomeScreen = ({ navigation }: Props) => {
     getProducts,
     fetchCategories,
     categories,
+    selectedCategory,
     setSelectedCategory,
-    filterProduct,
+    filterProducts,
     loadFavorites,
     addFavorite,
   } = useProducts();
@@ -50,13 +51,14 @@ const HomeScreen = ({ navigation }: Props) => {
     ({ item }) => (
       <Chip
         title={item}
+        selected={selectedCategory === item}
         onPress={() => {
           setSelectedCategory(item);
-          filterProduct();
+          filterProducts;
         }}
       />
     ),
-    [filterProduct, setSelectedCategory]
+    [filterProducts, setSelectedCategory]
   );
 
   // ** USE EFFECT ** //
