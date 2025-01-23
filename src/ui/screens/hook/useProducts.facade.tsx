@@ -96,17 +96,6 @@ export const useProducts = () => {
 
    */
 
-  const filterProducts = useMemo(async () => {
-    if (selectedCategories.length > 0) {
-      const filteredProducts = initialProducts.filter((product) =>
-        selectedCategories.includes(product.category)
-      );
-      setProducts(filteredProducts);
-    } else {
-      setProducts(initialProducts);
-    }
-  }, [initialProducts, selectedCategories]);
-
   const loadFavorites = useCallback(async () => {
     try {
       const savedFavorites = await storage.getItem(FAVORITE_PRODUCTS);
@@ -127,6 +116,18 @@ export const useProducts = () => {
     },
     [favoriteIds]
   );
+
+  // ** USE MEMO ** //
+  const filterProducts = useMemo(async () => {
+    if (selectedCategories.length > 0) {
+      const filteredProducts = initialProducts.filter((product) =>
+        selectedCategories.includes(product.category)
+      );
+      setProducts(filteredProducts);
+    } else {
+      setProducts(initialProducts);
+    }
+  }, [initialProducts, selectedCategories]);
 
   return {
     products,
