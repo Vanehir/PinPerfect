@@ -3,6 +3,7 @@ import { FlatList, Text, View } from 'react-native';
 import { useProducts } from '../hook/useProducts.facade';
 import API_URL from '../../../constants/api_urls';
 import { FavoritesScreenProps } from '../../navigation/navigationProps';
+import styles from './favorites.styles';
 
 const FavoritesScreen = ({ navigation }: FavoritesScreenProps) => {
   const {
@@ -13,7 +14,6 @@ const FavoritesScreen = ({ navigation }: FavoritesScreenProps) => {
     categories,
     renderItemProduct,
     renderItemCategory,
-    navigationProp,
     setNavigationProp,
     loadFavorites,
   } = useProducts();
@@ -33,12 +33,11 @@ const FavoritesScreen = ({ navigation }: FavoritesScreenProps) => {
       loadFavorites();
       setNavigationProp(navigation);
     });
-    console.log(navigationProp);
     return unsubscribe;
   }, [navigation]);
 
   return (
-    <>
+    <View style={styles.screenContainer}>
       <View>
         <FlatList
           data={categories}
@@ -46,14 +45,23 @@ const FavoritesScreen = ({ navigation }: FavoritesScreenProps) => {
           keyExtractor={(item) => item}
           horizontal
         />
-
-        <FlatList
-          data={favorites}
-          renderItem={renderItemProduct}
-          keyExtractor={(item) => item.id.toString()}
-        />
       </View>
-    </>
+
+      {favorites.length > 0 ? (
+        <View>
+          <FlatList
+            data={favorites}
+            renderItem={renderItemProduct}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </View>
+      ) : (
+        <View style={styles.noFavoritesContainer}>
+          <Text>No favorites yet</Text>
+          <Text>This is sad :(</Text>
+        </View>
+      )}
+    </View>
   );
 };
 
