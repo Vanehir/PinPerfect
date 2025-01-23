@@ -1,6 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { storage } from '../../../core/storage/storage';
 import { FAVORITE_PRODUCTS } from '../../../core/storage/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import ProductCard from '../../atoms/product/product.atom';
+import { NavigatorStackParamList, Screen } from '../../navigation/types';
+import { ListRenderItem } from 'react-native';
+import Chip from '../../atoms/chip/chip.atom';
 
 interface apiProduct {
   id: number;
@@ -36,6 +41,9 @@ export const useProducts = () => {
   const [categories, setCategories] = useState<string[]>([]);
   //const [selectedCategory, setSelectedCategory] = useState<string | null>(null); // old single category state
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [navigationProp, setNavigationProp] =
+    useState<NativeStackNavigationProp<NavigatorStackParamList, Screen.Detail>>();
+  const [singleProduct, setSingleProduct] = useState<ProductDetail | null>(null);
 
   // ** USE CALLBACK ** //
   // we do not use it the category passed as parameter in this case, but this could be useful in the future
@@ -61,6 +69,21 @@ export const useProducts = () => {
       setCategories(data);
     } catch (error) {
       console.error('Error fetching categories:', error);
+    }
+  }, []);
+
+  const getSingleProduct = useCallback(async (baseUrl: string, id: number) => {
+    try {
+      const response = await fetch(baseUrl + `/${id}`);
+      const data = await response.json();
+      const remappedData = {
+        ...data,
+        rating: data.rating.rate,
+        reviewCount: data.rating.count,
+      };
+      setSingleProduct(remappedData);
+    } catch (error) {
+      console.error('Error fetching product:', error);
     }
   }, []);
 
@@ -95,6 +118,49 @@ export const useProducts = () => {
   }, [initialProducts, selectedCategory]);
 
    */
+
+  const renderItemProduct = useCallback<ListRenderItem<Product>>(
+    ({ item }) => (
+      <ProductCard
+        product={item}
+        selected={favoriteIds.includes(item.id)}
+        onAddFavorite={() => addFavorite(item)}
+        onPress={() => {
+          if (!item.id) {
+            return;
+          }
+          navigationProp?.navigate(Screen.Detail, {
+            id: item.id,
+            idsArray: products.map((el) => el.id),
+          });
+        }}
+      />
+    ),
+    [addFavorite, products, favoriteIds, navigationProp]
+  );
+
+  const renderItemCategory = useCallback<ListRenderItem<string>>(
+    ({ item }) => (
+      <Chip
+        title={item}
+        selected={selectedCategories.includes(item)}
+        onPress={() => {
+          if (selectedCategories.includes(item)) {
+            setSelectedCategories((currentSelectedCategories: string[]) =>
+              currentSelectedCategories.filter((category) => category !== item)
+            );
+          } else {
+            setSelectedCategories((currentSelectedCategories: string[]) => [
+              ...currentSelectedCategories,
+              item,
+            ]);
+            filterProducts;
+          }
+        }}
+      />
+    ),
+    [filterProducts, selectedCategories, setSelectedCategories]
+  );
 
   const loadFavorites = useCallback(async () => {
     try {
@@ -134,7 +200,14 @@ export const useProducts = () => {
     favoriteIds,
     getProducts,
     fetchCategories,
+    getSingleProduct,
+    singleProduct,
+    setSingleProduct,
     categories,
+    renderItemProduct,
+    renderItemCategory,
+    navigationProp,
+    setNavigationProp,
     // selectedCategory,
     // setSelectedCategory,
     selectedCategories,
