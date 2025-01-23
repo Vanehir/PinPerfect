@@ -5,15 +5,10 @@ export enum Screen {
   Favorites = 'Favorites',
 }
 
-export type TabParams = {
-  [Screen.Home]: undefined;
-  [Screen.Favorites]: undefined;
-}
-
 export type NavigatorStackParamList = {
   TabNavigator: undefined;
   [Screen.Detail]: {
     id: number;
     idsArray: number[];
   };
-}
+};
