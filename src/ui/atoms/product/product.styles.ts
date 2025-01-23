@@ -17,17 +17,15 @@ const styles = StyleSheet.create({
     elevation: 5,
     margin: 8,
   },
-  containerHeader: {
-    flexDirection: 'row',
-  },
   titleContainer: {
     alignItems: 'center',
+    margin: 15,
   },
   titleStyle: {
     color: COLORS.BLACK,
     textAlign: 'center',
     fontWeight: '600',
-    fontSize: 20,
+    fontSize: 18,
   },
   containerImage: {
     padding: 8,
@@ -38,12 +36,33 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: 'contain',
   },
-  genericCardTextSpacing: {
-    marginTop: 8,
-  },
   genericCardText: {
     fontSize: 16,
     color: 'white',
+  },
+  priceAndButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  price: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: COLORS.CARNATION_PINK,
+  },
+  rating: {
+    fontSize: 14,
+    color: COLORS.GREY,
+    paddingLeft: 8,
+  },
+  priceAndRatingContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  favoriteIcon: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
   },
 });
 export default styles;
