@@ -1,0 +1,10 @@
+const COLORS = {
+  WHITE: '#FFFFFF',
+  GREY: '#B2B2B2',
+  BLACK: '#000000',
+  TURQUOISE_SURF: '#09C6D5',
+  BROWNISH_YELLOW: '#C5B006',
+  CARNATION_PINK: '#FF7FAB',
+};
+
+export default COLORS;

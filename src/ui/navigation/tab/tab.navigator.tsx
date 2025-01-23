@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { TabParams, Screen } from '../types';
-import { Ionicons } from '@expo/vector-icons';
-import HomeScreen from '../../screens/home/home.screen';
-import FavoritesScreen from '../../screens/favorites/favorites.screen';
-import COLORS from '../../constants/colors';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { TabParams, Screen } from "../types";
+import { Ionicons } from "@expo/vector-icons";
+import HomeScreen from "../../screens/home/home.screen";
+import FavoritesScreen from "../../screens/favorites/favorites.screen";
+import COLORS from "../../../constants/colors";
 
 const Tab = createBottomTabNavigator<TabParams>();
 export default function TabNavigator() {
@@ -17,16 +17,19 @@ export default function TabNavigator() {
           tabBarShowLabel: true,
           tabBarIconStyle: {
             flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
+          },
+          tabBarLabelStyle: {
+            color: COLORS.TURQUOISE_SURF,
           },
           tabBarIcon: ({ focused }) => {
             const iconName = () => {
               switch (route.name) {
                 case Screen.Home:
-                  return 'home';
+                  return "home";
                 case Screen.Favorites:
-                  return 'bookmark';
+                  return "bookmark";
               }
             };
             return (
@@ -38,7 +41,8 @@ export default function TabNavigator() {
             );
           },
         };
-      }}>
+      }}
+    >
       <Tab.Screen name={Screen.Home} component={HomeScreen} />
       <Tab.Screen name={Screen.Favorites} component={FavoritesScreen} />
     </Tab.Navigator>
