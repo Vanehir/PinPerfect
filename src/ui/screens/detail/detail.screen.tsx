@@ -7,6 +7,7 @@ import { Dimensions } from 'react-native';
 import styles from './detail.styles';
 import ScrollView = Animated.ScrollView;
 import IconButton from '../../atoms/iconButton/iconButton.atom';
+import COLORS from '../../../constants/colors';
 
 const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
   const {
@@ -33,6 +34,15 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
 
   // ** USE MEMO ** //
   const currentIndex = useMemo(() => idsArray.indexOf(id), [id, idsArray]);
+
+  const backButtonColor = useMemo(
+    () => (currentIndex > 0 ? COLORS.TURQUOISE_SURF : COLORS.GREY),
+    [currentIndex]
+  );
+  const forwardButtonColor = useMemo(
+    () => (currentIndex < idsArray.length - 1 ? COLORS.TURQUOISE_SURF : COLORS.GREY),
+    [currentIndex, idsArray.length]
+  );
 
   // ** USE CALLBACK ** //
   const handleBack = useCallback(() => {
@@ -90,8 +100,12 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
         </View>
       </ScrollView>
       <View style={styles.iconButtonContainer}>
-        <IconButton icon={'chevron-back'} onPress={handleBack} />
-        <IconButton icon={'chevron-forward'} onPress={handleNext} />
+        <IconButton icon={'chevron-back'} onPress={handleBack} colorButton={backButtonColor} />
+        <IconButton
+          icon={'chevron-forward'}
+          onPress={handleNext}
+          colorButton={forwardButtonColor}
+        />
       </View>
     </SafeAreaView>
   );
