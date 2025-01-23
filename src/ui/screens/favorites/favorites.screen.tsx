@@ -3,7 +3,9 @@ import { FlatList, Text, View } from 'react-native';
 import { useProducts } from '../hook/useProducts.facade';
 import API_URL from '../../../constants/api_urls';
 import { FavoritesScreenProps } from '../../navigation/navigationProps';
-import styles from './favorites.styles';
+import styles from '../tabScreen.styles';
+import IconButton from '../../atoms/iconButton/iconButton.atom';
+import COLORS from '../../../constants/colors';
 
 const FavoritesScreen = ({ navigation }: FavoritesScreenProps) => {
   const {
@@ -16,6 +18,9 @@ const FavoritesScreen = ({ navigation }: FavoritesScreenProps) => {
     renderItemCategory,
     setNavigationProp,
     loadFavorites,
+    sorting,
+    sortProduct,
+    iconSortButton,
   } = useProducts();
 
   // ** USE MEMO ** //
@@ -38,6 +43,9 @@ const FavoritesScreen = ({ navigation }: FavoritesScreenProps) => {
 
   return (
     <View style={styles.screenContainer}>
+      <View style={styles.sortButtonContainer}>
+        <IconButton icon={iconSortButton} onPress={sortProduct} colorButton={COLORS.BLACK} />
+      </View>
       <View>
         <FlatList
           data={categories}
@@ -48,7 +56,7 @@ const FavoritesScreen = ({ navigation }: FavoritesScreenProps) => {
       </View>
 
       {favorites.length > 0 ? (
-        <View>
+        <View style={styles.productContainer}>
           <FlatList
             data={favorites}
             renderItem={renderItemProduct}

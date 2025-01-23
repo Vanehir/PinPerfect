@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react';
 
-import { FlatList, View } from 'react-native';
-import { useProducts } from '../hook/useProducts.facade';
+import { FlatList, Text, View } from 'react-native';
+import { SortType, useProducts } from '../hook/useProducts.facade';
 import API_URL from '../../../constants/api_urls';
 import { HomeScreenProps } from '../../navigation/navigationProps';
+import Button from '../../atoms/button/button.atom';
+import IconButton from '../../atoms/iconButton/iconButton.atom';
+import * as stream from 'node:stream';
+import styles from '../tabScreen.styles';
+import COLORS from '../../../constants/colors';
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const {
@@ -13,8 +18,10 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     categories,
     renderItemProduct,
     renderItemCategory,
-    navigationProp,
     setNavigationProp,
+    sorting,
+    iconSortButton,
+    sortProduct,
     loadFavorites,
   } = useProducts();
 
@@ -73,10 +80,13 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       setNavigationProp(navigation);
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, sorting]);
 
   return (
-    <>
+    <View style={styles.screenContainer}>
+      <View style={styles.sortButtonContainer}>
+        <IconButton icon={iconSortButton} onPress={sortProduct} colorButton={COLORS.BLACK} />
+      </View>
       <View>
         <FlatList
           data={categories}
@@ -84,14 +94,16 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
           keyExtractor={(item) => item}
           horizontal
         />
+      </View>
 
+      <View style={styles.productContainer}>
         <FlatList
           data={products}
           renderItem={renderItemProduct}
           keyExtractor={(item) => item.id.toString()}
         />
       </View>
-    </>
+    </View>
   );
 };
 
