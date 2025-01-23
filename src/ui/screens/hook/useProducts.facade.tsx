@@ -6,6 +6,7 @@ import ProductCard from '../../atoms/product/product.atom';
 import { NavigatorStackParamList, Screen } from '../../navigation/types';
 import { ListRenderItem } from 'react-native';
 import Chip from '../../atoms/chip/chip.atom';
+import { Ionicons } from '@expo/vector-icons';
 
 interface apiProduct {
   id: number;
@@ -34,6 +35,12 @@ export interface ProductDetail extends Product {
   reviewCount: number;
 }
 
+export enum SortType {
+  DEFAULT = 'DEFAULT',
+  ASCENDING = 'ASCENDING',
+  DESCENDING = 'DESCENDING',
+}
+
 export const useProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [initialProducts, setInitialProducts] = useState<Product[]>([]);
@@ -44,6 +51,8 @@ export const useProducts = () => {
   const [navigationProp, setNavigationProp] =
     useState<NativeStackNavigationProp<NavigatorStackParamList, Screen.Detail>>();
   const [singleProduct, setSingleProduct] = useState<ProductDetail | null>(null);
+  const [sorting, setSorting] = useState<SortType>(SortType.DEFAULT);
+  const [iconSortButton, setIconSortButton] = useState<keyof typeof Ionicons.glyphMap>('arrow-up');
 
   // ** USE CALLBACK ** //
   // we do not use it the category passed as parameter in this case, but this could be useful in the future
@@ -183,8 +192,45 @@ export const useProducts = () => {
     [favoriteIds]
   );
 
-  // ** USE MEMO ** //
-  const filterProducts = useMemo(async () => {
+  // const sortProduct = useCallback(
+  //   (sort: SortType) => {
+  //     setSorting(sort);
+  //     if (sort === SortType.DEFAULT) {
+  //       setProducts(initialProducts);
+  //       return;
+  //     }
+  //     const sortedProducts = products.sort((a, b) => {
+  //       if (sort === SortType.ASCENDING) {
+  //         return a.rating - b.rating;
+  //       }
+  //       return b.rating - a.rating;
+  //     });
+  //     setProducts(sortedProducts);
+  //   },
+  //   [initialProducts, products]
+  // );
+
+  const sortProduct = useCallback(() => {
+    switch (sorting) {
+      case SortType.DEFAULT:
+        setProducts([...products].sort((a, b) => a.rating - b.rating));
+        setSorting(SortType.ASCENDING);
+        setIconSortButton('arrow-down');
+        break;
+      case SortType.ASCENDING:
+        setProducts([...products].sort((a, b) => b.rating - a.rating));
+        setSorting(SortType.DESCENDING);
+        setIconSortButton('close');
+        break;
+      case SortType.DESCENDING:
+        filterProductsCallBack();
+        setSorting(SortType.DEFAULT);
+        setIconSortButton('arrow-up');
+        break;
+    }
+  }, [sorting, products, initialProducts]);
+
+  const filterProductsCallBack = useCallback(() => {
     if (selectedCategories.length > 0) {
       const filteredProducts = initialProducts.filter((product) =>
         selectedCategories.includes(product.category)
@@ -194,6 +240,11 @@ export const useProducts = () => {
       setProducts(initialProducts);
     }
   }, [initialProducts, selectedCategories]);
+
+  // ** USE MEMO ** //
+  const filterProducts = useMemo(async () => {
+    filterProductsCallBack();
+  }, [filterProductsCallBack]);
 
   return {
     products,
@@ -213,8 +264,10 @@ export const useProducts = () => {
     selectedCategories,
     setSelectedCategories,
     filterProducts,
+    sorting,
+    sortProduct,
+    iconSortButton,
     loadFavorites,
     addFavorite,
-    // TODO add sorting and test filterProduct
   };
 };
