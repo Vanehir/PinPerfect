@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Product } from '../../screens/hook/useProducts.facade';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from './product.styles';
 import COLORS from '../../../constants/colors';
@@ -37,6 +37,9 @@ const ProductCard = ({ product, selected, onAddFavorite, onPress }: ProductCardP
         <View>
           <Text style={styles}>{product.price}</Text>
         </View>
+        <TouchableOpacity onPress={onPress}>
+          <Text>Buy</Text>
+        </TouchableOpacity>
       </View>
     </>
   );
