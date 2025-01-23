@@ -72,9 +72,13 @@ const HomeScreen = ({ navigation }: Props) => {
 
   // ** USE EFFECT ** //
   useEffect(() => {
-    getProducts(API_URL.BASE_URL); // TODO find out why this give an error even if category is optional
-    fetchCategories(API_URL.CATEGORY_URL);
-    loadFavorites();
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('Favorites screen focused');
+      getProducts(API_URL.BASE_URL); // TODO find out why this give an error even if category is optional
+      fetchCategories(API_URL.CATEGORY_URL);
+      loadFavorites();
+    });
+    return unsubscribe;
   }, []);
 
   return (
