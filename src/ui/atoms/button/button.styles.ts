@@ -3,17 +3,12 @@ import COLORS from '../../../constants/colors';
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#2c135a',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
+    backgroundColor: COLORS.TURQUOISE_SURF,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
   },
   buttonText: {
     color: COLORS.WHITE,
