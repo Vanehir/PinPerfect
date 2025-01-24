@@ -39,12 +39,16 @@ const FavoritesScreen = ({ navigation }: FavoritesScreenProps) => {
       setNavigationProp(navigation);
     });
     return unsubscribe;
-  }, [navigation]);
+  }, []);
 
   return (
     <View style={styles.screenContainer}>
       <View style={styles.sortButtonContainer}>
-        <IconButton icon={iconSortButton} onPress={sortProduct} colorButton={COLORS.BLACK} />
+        <IconButton
+          icon={iconSortButton}
+          onPress={() => sortProduct()}
+          colorButton={COLORS.BLACK}
+        />
       </View>
       <View>
         <FlatList

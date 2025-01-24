@@ -8,29 +8,12 @@ import styles from './detail.styles';
 import ScrollView = Animated.ScrollView;
 import IconButton from '../../atoms/iconButton/iconButton.atom';
 import COLORS from '../../../constants/colors';
+import { WIN_WIDTH, WIN_HEIGHT } from '../../../constants/dimensions';
 
 const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
-  const {
-    products,
-    favoriteIds,
-    getProducts,
-    fetchCategories,
-    categories,
-    getSingleProduct,
-    singleProduct,
-    setSingleProduct,
-    selectedCategories,
-    setSelectedCategories,
-    renderItemProduct,
-    navigationProp,
-    setNavigationProp,
-    filterProducts,
-    loadFavorites,
-    addFavorite,
-  } = useProducts();
+  const { getSingleProduct, singleProduct } = useProducts();
 
   const { id, idsArray } = route.params;
-  const { width: WIN_WIDTH, height: WIN_HEIGHT } = Dimensions.get('window');
 
   // ** USE MEMO ** //
   const currentIndex = useMemo(() => idsArray.indexOf(id), [id, idsArray]);

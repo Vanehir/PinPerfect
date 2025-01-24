@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
-import { FlatList, Text, View } from 'react-native';
-import { SortType, useProducts } from '../hook/useProducts.facade';
+import { FlatList, View } from 'react-native';
+import { useProducts } from '../hook/useProducts.facade';
 import API_URL from '../../../constants/api_urls';
 import { HomeScreenProps } from '../../navigation/navigationProps';
-import Button from '../../atoms/button/button.atom';
+
 import IconButton from '../../atoms/iconButton/iconButton.atom';
-import * as stream from 'node:stream';
+
 import styles from '../tabScreen.styles';
 import COLORS from '../../../constants/colors';
 
@@ -80,7 +80,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       setNavigationProp(navigation);
     });
     return unsubscribe;
-  }, [navigation, sorting]);
+  }, []);
 
   return (
     <View style={styles.screenContainer}>

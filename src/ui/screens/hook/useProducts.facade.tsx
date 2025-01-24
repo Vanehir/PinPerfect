@@ -163,12 +163,11 @@ export const useProducts = () => {
               ...currentSelectedCategories,
               item,
             ]);
-            filterProducts;
           }
         }}
       />
     ),
-    [filterProducts, selectedCategories, setSelectedCategories]
+    [selectedCategories, setSelectedCategories]
   );
 
   const loadFavorites = useCallback(async () => {
@@ -211,6 +210,7 @@ export const useProducts = () => {
   // );
 
   const sortProduct = useCallback(() => {
+    console.log('sorting', sorting);
     switch (sorting) {
       case SortType.DEFAULT:
         setProducts([...products].sort((a, b) => a.rating - b.rating));
@@ -228,7 +228,7 @@ export const useProducts = () => {
         setIconSortButton('arrow-up');
         break;
     }
-  }, [sorting, products, initialProducts]);
+  }, [sorting, products]);
 
   const filterProductsCallBack = useCallback(() => {
     if (selectedCategories.length > 0) {
